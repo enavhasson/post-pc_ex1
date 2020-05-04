@@ -1,5 +1,6 @@
 package com.example.todoboom;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,16 +20,16 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    TodoItemAdapter adapter;
+    private TodoItemAdapter adapter;
+    private ArrayList<TodoItem> items = new ArrayList<>();
+    private EditText insert_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ArrayList<TodoItem> items = new ArrayList<>();
-        final EditText insert_text = findViewById(R.id.insert_eText);
-        CheckBox checkBox = findViewById(R.id.checkBox);
+        insert_text = findViewById(R.id.insert_eText);
         Button button = findViewById(R.id.createButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,24 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new TodoItemAdapter(this, items);
         recyclerView.setAdapter(adapter);
+        if(savedInstanceState!=null) {
+            String[] string_array_items = savedInstanceState.getStringArray("TODO_items");
+            assert string_array_items != null;
+            for (int i = 0; i < string_array_items.length; i++)
+                items.add(i,new TodoItem(string_array_items[i]));
+            insert_text.setText(savedInstanceState.getString("insert_text"));
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String[] string_array_items = new String[items.size()] ;
+        for (int i = 0; i < items.size(); i++)
+            string_array_items[i] = items.get(i).getM_item_string();
+        outState.putStringArray("TODO_items", string_array_items);
+        outState.putString("insert_text", insert_text.toString());
     }
 
     public void onItemClick(View view, int position) {
