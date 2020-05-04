@@ -1,22 +1,31 @@
 package com.example.todoboom;
 
 public class TodoItem {
-    private String m_item_string;
-//    private Boolean m_isDone = false;
+    private String mitem_str;
+    private boolean is_selected = false;
 
-    public TodoItem( String item_string){
-        m_item_string=item_string;
+    public TodoItem(String item_string) {
+        mitem_str = item_string;
     }
 
-    public String getM_item_string() {
-        return m_item_string;
+    public TodoItem(String item_string, boolean is_selected) {
+        this.mitem_str = item_string;
+        this.is_selected = is_selected;
     }
 
-//    public Boolean getM_isDone() {
-//        return m_isDone;
+    public String get_item_str() {
+        return mitem_str;
+    }
+
+    public boolean get_is_selected() {
+        return is_selected;
+    }
+
+//    public void set_is_selected() {
+//        this.is_selected = true;
 //    }
-//
-//    public void setM_isDone(Boolean m_isDone) {
-//        this.m_isDone = true;
-//    }
+
+    public void set_is_selected(boolean is_selected) {
+        this.is_selected = is_selected;
+    }
 }

@@ -2,7 +2,6 @@ package com.example.todoboom;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -55,10 +53,14 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TodoItemAdapter(this, items);
         recyclerView.setAdapter(adapter);
         if(savedInstanceState!=null) {
-            String[] string_array_items = savedInstanceState.getStringArray("TODO_items");
+            String[] string_array_items = savedInstanceState.getStringArray("str_TODO_items");
+            boolean[] bool_is_done_items_arr=savedInstanceState.getBooleanArray("is_done_TODO_items");
             assert string_array_items != null;
-            for (int i = 0; i < string_array_items.length; i++)
-                items.add(i,new TodoItem(string_array_items[i]));
+            assert bool_is_done_items_arr != null;
+            for (int i = 0; i < string_array_items.length; i++) {
+                boolean is_done=bool_is_done_items_arr[i];
+                items.add(i,new TodoItem(string_array_items[i],is_done));
+            }
             insert_text.setText(savedInstanceState.getString("insert_text"));
         }
 
@@ -67,16 +69,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        String[] string_array_items = new String[items.size()] ;
-        for (int i = 0; i < items.size(); i++)
-            string_array_items[i] = items.get(i).getM_item_string();
-        outState.putStringArray("TODO_items", string_array_items);
+        String[] str_items_arr = new String[items.size()] ;
+        boolean[] bool_is_done_items_arr =new boolean[items.size()];
+        for (int i = 0; i < items.size(); i++) {
+            str_items_arr[i] = items.get(i).get_item_str();
+            bool_is_done_items_arr[i] = items.get(i).get_is_selected();
+        }
+        outState.putStringArray("str_TODO_items", str_items_arr);
+        outState.putBooleanArray("is_done_TODO_items",bool_is_done_items_arr);
         outState.putString("insert_text", insert_text.toString());
+
     }
 
-    public void onItemClick(View view, int position) {
-        Toast.makeText(this, "TODO " + adapter.getItem(position) + " is now DONE. BOOM! ", Toast.LENGTH_SHORT).show();
-    }
+//    public void onItemClick(View view, int position) {
+//        Toast.makeText(this, "TODO " + adapter.getItem(position) + " is now DONE. BOOM! ", Toast.LENGTH_SHORT).show();
+//    }
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
