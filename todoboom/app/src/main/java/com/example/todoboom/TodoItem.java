@@ -12,4 +12,11 @@ public class TodoItem {
         return m_item_string;
     }
 
+    public Boolean getM_isDone() {
+        return m_isDone;
+    }
+
+    public void setM_isDone(Boolean m_isDone) {
+        this.m_isDone = true;
+    }
 }

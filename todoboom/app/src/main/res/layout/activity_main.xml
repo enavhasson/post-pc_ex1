@@ -7,20 +7,20 @@
     android:background="#4A9C27B0"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/input_textView"
-        android:layout_width="313dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="12dp"
-        android:background="#FDFDFD"
-        android:text="@string/show_text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/createButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+<!--    <TextView-->
+<!--        android:id="@+id/input_textView"-->
+<!--        android:layout_width="313dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        android:layout_marginStart="12dp"-->
+<!--        android:background="#FDFDFD"-->
+<!--        android:text="@string/show_text"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="@id/createButton"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.976" />-->
 
     <Button
         android:id="@+id/createButton"
@@ -32,33 +32,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.971"
-        app:layout_constraintStart_toEndOf="@id/input_textView" />
+        app:layout_constraintStart_toEndOf="@id/insert_eText" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/eText"-->
-<!--        android:layout_width="300sp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="left"-->
-<!--        android:hint="@string/enter_text"-->
-<!--        android:inputType="text"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.495"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.023"-->
-<!--        tools:ignore="LabelFor,RtlHardcoded,TextFields" />-->
 
+    <EditText
+        android:id="@+id/insert_eText"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="left"
+        android:hint="@string/enter_text"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/createButton"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/input_textView"
+        app:layout_constraintBottom_toTopOf="@id/insert_eText"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="20dp"
 
