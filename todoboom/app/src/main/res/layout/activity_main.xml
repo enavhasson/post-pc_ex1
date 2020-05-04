@@ -7,39 +7,25 @@
     android:background="#4A9C27B0"
     tools:context=".MainActivity">
 
-<!--    <TextView-->
-<!--        android:id="@+id/input_textView"-->
-<!--        android:layout_width="313dp"-->
-<!--        android:layout_height="51dp"-->
-<!--        android:layout_marginStart="12dp"-->
-<!--        android:background="#FDFDFD"-->
-<!--        android:text="@string/show_text"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="@id/createButton"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.976" />-->
 
     <Button
         android:id="@+id/createButton"
         android:layout_width="95dp"
         android:layout_height="51dp"
         android:layout_marginStart="308dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.971"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/insert_eText" />
-
 
     <EditText
         android:id="@+id/insert_eText"
         android:layout_width="300sp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="12dp"
+        android:background="#FFFFFF"
         android:gravity="left"
         android:hint="@string/enter_text"
         android:inputType="text"
@@ -50,7 +36,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/createButton"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
@@ -60,30 +45,7 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/insert_eText"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="20dp"
-
-        />
-
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/item_recycler"-->
-<!--        android:layout_width="359dp"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginEnd="36dp"-->
-<!--        android:layout_marginBottom="160dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/input_textView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"/>-->
-
-
-    <!--    <CheckBox-->
-<!--        android:id="@+id/checkbox_text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="onCheckboxClicked"-->
-<!--        tools:layout_editor_absoluteX="35dp"-->
-<!--        tools:layout_editor_absoluteY="259dp"-->
-<!--        tools:ignore="OnClick" />-->
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
