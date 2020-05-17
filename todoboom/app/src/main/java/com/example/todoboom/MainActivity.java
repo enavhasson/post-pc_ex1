@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,72 +13,81 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private TodoItemAdapter adapter;
-    private ArrayList<TodoItem> items = new ArrayList<>();
-    private EditText insert_text;
+    private static final String SP_USER_TEXT_INPUT = "insert_text";
+    private static final String SP_IS_DONE_TODO_ITEMS = "is_done_TODO_items";
+    private static final String SP_STR_TODO_ITEMS = "str_TODO_items";
+    private static final String SP_TODO_ITEMS = "TODO_items";
+
+    private TodoItemAdapter m_adapter;
+    private ArrayList<TodoItem> m_items = new ArrayList<>();
+    private EditText m_insert_text;
+    private SharedPreferences m_sp;
+    private Gson gson =new Gson();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        insert_text = findViewById(R.id.insert_eText);
+        m_insert_text = findViewById(R.id.insert_eText);
         Button button = findViewById(R.id.createButton);
+
+        m_sp = this.getSharedPreferences("my_items",MODE_PRIVATE);
+
+        if (savedInstanceState != null) {
+            Gson gson = new Gson();
+            String jsonItems = m_sp.getString(SP_TODO_ITEMS, null);
+            this.m_items = gson.fromJson(jsonItems,
+                    new TypeToken<ArrayList<TodoItem>>() {}.getType());
+            m_insert_text.setText(m_sp.getString(SP_USER_TEXT_INPUT, ""));
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (insert_text.getText().toString().equals("")) {
+                if (m_insert_text.getText().toString().equals("")) {
                     String message = "you can't create an empty TODO item, oh silly!";
                     int duration = Snackbar.LENGTH_SHORT;
-                    showSnackbar(insert_text, message, duration);
+                    showSnackbar(m_insert_text, message, duration);
                 } else {
-                    TodoItem todoItem = new TodoItem(insert_text.getText().toString());
-                    items.add(todoItem);
-                    adapter.notifyItemInserted(items.size() - 1);
-                    insert_text.setText("");
+                    TodoItem todoItem = new TodoItem(m_insert_text.getText().toString());
+                    m_items.add(todoItem);
+                    m_adapter.notifyItemInserted(m_items.size() - 1);
+                    m_insert_text.setText("");
+
+                    //save new item and empty input
+                    SharedPreferences.Editor editor = m_sp.edit();
+                    String json_items = gson.toJson(m_items);
+                    editor.putString(SP_TODO_ITEMS, json_items);
+                    editor.putString(SP_USER_TEXT_INPUT, m_insert_text.getText().toString());
+                    editor.apply();
+
                 }
             }
         });
 
         RecyclerView recyclerView = findViewById(R.id.item_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        m_adapter = new TodoItemAdapter(this, this.m_items);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new TodoItemAdapter(this, items);
-        recyclerView.setAdapter(adapter);
-        if (savedInstanceState != null) {
-            String[] string_array_items = savedInstanceState.getStringArray("str_TODO_items");
-            boolean[] bool_is_done_items_arr = savedInstanceState.getBooleanArray
-                    ("is_done_TODO_items");
-            assert string_array_items != null;
-            assert bool_is_done_items_arr != null;
-            for (int i = 0; i < string_array_items.length; i++) {
-                boolean is_done = bool_is_done_items_arr[i];
-                items.add(i, new TodoItem(string_array_items[i], is_done));
-            }
-            insert_text.setText(savedInstanceState.getString("insert_text"));
-        }
+        recyclerView.setAdapter(m_adapter);
 
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        String[] str_items_arr = new String[items.size()];
-        boolean[] bool_is_done_items_arr = new boolean[items.size()];
-        for (int i = 0; i < items.size(); i++) {
-            str_items_arr[i] = items.get(i).get_item_str();
-            bool_is_done_items_arr[i] = items.get(i).get_is_selected();
-        }
-        outState.putStringArray("str_TODO_items", str_items_arr);
-        outState.putBooleanArray("is_done_TODO_items", bool_is_done_items_arr);
-        outState.putString("insert_text", insert_text.toString());
-
+        SharedPreferences.Editor editor = m_sp.edit();
+        editor.putString(SP_TODO_ITEMS, gson.toJson(m_items));
+        editor.putString(SP_USER_TEXT_INPUT, m_insert_text.getText().toString());
+        editor.apply();
     }
 
     public void onCheckboxClicked(View view) {
