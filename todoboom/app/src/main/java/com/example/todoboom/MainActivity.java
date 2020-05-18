@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String SP_USER_TEXT_INPUT = "insert_text";
-    private static final String SP_IS_DONE_TODO_ITEMS = "is_done_TODO_items";
-    private static final String SP_STR_TODO_ITEMS = "str_TODO_items";
-    private static final String SP_TODO_ITEMS = "TODO_items";
+    public static final String SP_USER_TEXT_INPUT = "insert_text";
+//    private static final String SP_IS_DONE_TODO_ITEMS = "is_done_TODO_items";
+//    private static final String SP_STR_TODO_ITEMS = "str_TODO_items";
+    public static final String SP_TODO_ITEMS = "TODO_items";
 
     private TodoItemAdapter m_adapter;
     private ArrayList<TodoItem> m_items = new ArrayList<>();
@@ -73,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         RecyclerView recyclerView = findViewById(R.id.item_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        m_adapter = new TodoItemAdapter(this, this.m_items);
+        m_adapter = new TodoItemAdapter(this, this.m_items,this.m_sp);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(m_adapter);
 
@@ -97,4 +98,5 @@ public class MainActivity extends AppCompatActivity {
     public void showSnackbar(View view, String message, int duration) {
         Snackbar.make(view, message, duration).show();
     }
+
 }
