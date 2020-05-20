@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,15 +23,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static final String SP_USER_TEXT_INPUT = "insert_text";
-//    private static final String SP_IS_DONE_TODO_ITEMS = "is_done_TODO_items";
-//    private static final String SP_STR_TODO_ITEMS = "str_TODO_items";
     public static final String SP_TODO_ITEMS = "TODO_items";
 
     private TodoItemAdapter m_adapter;
     private ArrayList<TodoItem> m_items = new ArrayList<>();
     private EditText m_insert_text;
     private SharedPreferences m_sp;
-    private Gson gson =new Gson();
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -39,13 +39,14 @@ public class MainActivity extends AppCompatActivity {
         m_insert_text = findViewById(R.id.insert_eText);
         Button button = findViewById(R.id.createButton);
 
-        m_sp = this.getSharedPreferences("my_items",MODE_PRIVATE);
+        m_sp = this.getSharedPreferences("my_items", MODE_PRIVATE);
 
         if (savedInstanceState != null) {
             Gson gson = new Gson();
             String jsonItems = m_sp.getString(SP_TODO_ITEMS, null);
             this.m_items = gson.fromJson(jsonItems,
-                    new TypeToken<ArrayList<TodoItem>>() {}.getType());
+                    new TypeToken<ArrayList<TodoItem>>() {
+                    }.getType());
             m_insert_text.setText(m_sp.getString(SP_USER_TEXT_INPUT, ""));
         }
 
@@ -73,13 +74,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buildRecyclerView();
 
+        //create log
+        Log.d("Number of TODOs", String.valueOf(this.m_adapter.getItemCount()));
+
+    }
+
+    private void buildRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.item_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        m_adapter = new TodoItemAdapter(this, this.m_items,this.m_sp);
+        m_adapter = new TodoItemAdapter(this, this.m_items, this.m_sp);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(m_adapter);
-
     }
 
     @Override

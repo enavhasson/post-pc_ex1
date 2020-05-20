@@ -29,7 +29,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
         this.mInflater = LayoutInflater.from(context);
         this.mTodoItem = todoItems;
         this.mContext = context;
-        this.m_sp=sp;
+        this.m_sp = sp;
     }
 
     @Override
@@ -45,8 +45,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-            View.OnLongClickListener
-    {
+            View.OnLongClickListener {
         TextView item_text;
         CheckBox checkBox;
 
@@ -74,7 +73,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
         @Override
         public boolean onLongClick(View view) {
             // Handle long click
-            // Return true to indicate the click was handled
+
             DialogInterface.OnClickListener dialog = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -91,6 +90,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setMessage("Are you sure you want to delete?").setPositiveButton("Yes", dialog)
                     .setNegativeButton("No", dialog).show();
+            // Return true to indicate the click was handled
             return true;
         }
 
@@ -125,15 +125,14 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
         return mTodoItem.get(id).get_item_str();
     }
 
-    private void removeItem(int position){
-        Gson gson=new Gson();
+    private void removeItem(int position) {
+        Gson gson = new Gson();
         mTodoItem.remove(position);
         SharedPreferences.Editor editor = m_sp.edit();
         editor.putString(MainActivity.SP_TODO_ITEMS, gson.toJson(mTodoItem));
         editor.apply();
         this.notifyItemRemoved(position);
     }
-
 
 }
 
