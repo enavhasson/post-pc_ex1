@@ -1,11 +1,11 @@
 package com.example.todoboom;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -55,10 +56,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (m_insert_text.getText().toString().equals("")) {
                     String message = "you can't create an empty TODO item, oh silly!";
-                    int duration = Snackbar.LENGTH_SHORT;
-                    showSnackbar(m_insert_text, message, duration);
+                    showSnackbar(m_insert_text, message);
                 } else {
-                    TodoItem todoItem = new TodoItem(m_insert_text.getText().toString());
+                    TodoItem todoItem = new TodoItem(m_insert_text.getText().toString(), m_items.size());//todo nums
                     m_items.add(todoItem);
                     m_adapter.notifyItemInserted(m_items.size() - 1);
                     m_insert_text.setText("");
@@ -87,10 +87,21 @@ public class MainActivity extends AppCompatActivity {
         m_adapter = new TodoItemAdapter(this, this.m_items, this.m_sp);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(m_adapter);
+
+        TodoItemAdapter.OnItemClickListener onItemClickListener = new TodoItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (!m_items.get(position).get_is_selected()) {
+                    openUncompletedActivity(m_items.get(position).get_item_str(), position);
+//                    m_items.get(position).set_is_selected(true);
+                }
+            }
+        };
+        m_adapter.setOnClickListener(onItemClickListener);
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         SharedPreferences.Editor editor = m_sp.edit();
         editor.putString(SP_TODO_ITEMS, gson.toJson(m_items));
@@ -98,12 +109,50 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public void openUncompletedActivity(String itemText, int id_item) {
+        Intent intent = new Intent(this, NotCompletedTodoActivity.class);
+        intent.putExtra("item_text", itemText);
+        intent.putExtra("item_id", id_item);
+        intent.putExtra("Time_item_created", m_items.get(id_item).getTime_item_created());
+        intent.putExtra("Time_last_modified", m_items.get(id_item).getTime_last_modified());
+        this.startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                int id_item = data.getIntExtra("item_id",-1);
+
+                String time_last_modified=data.getStringExtra("time_last_modified");
+                m_items.get(id_item).setTime_last_modified(time_last_modified);
+                String text_item = data.getStringExtra("item_text");
+                m_items.get(id_item).setStr_item(text_item);
+
+                boolean is_selected = data.getBooleanExtra("is_selected_item", false);
+                if(is_selected){
+                    Toast.makeText(this, "TODO " + text_item +
+                            " is now DONE. BOOM! ", Toast.LENGTH_SHORT).show();
+                }
+                m_items.get(id_item).set_is_selected(is_selected);
+
+
+                m_adapter.notifyItemChanged(id_item);
+
+            }
+        }
+    }
+
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
     }
 
-    public void showSnackbar(View view, String message, int duration) {
+    public static void showSnackbar(View view, String message) {
+        int duration = Snackbar.LENGTH_SHORT;
         Snackbar.make(view, message, duration).show();
     }
+
 
 }

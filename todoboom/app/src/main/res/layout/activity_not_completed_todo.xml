@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotCompletedTodoActivity">
+
+
+    <TextView
+        android:id="@+id/temContentTextView"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="54dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editTextItemContent"
+        android:layout_width="300sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:hint="@string/item_content"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temContentTextView"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="95dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="468dp"
+        android:text="@string/apply_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextItemContent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textTimeItemCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/time_item_created_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/applyButton"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textTimeLastModifiedItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time_last_modified_item_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/textTimeItemCreated"
+        app:layout_constraintHorizontal_bias="0.685"
+        app:layout_constraintStart_toStartOf="@id/textTimeItemCreated"
+        app:layout_constraintTop_toBottomOf="@id/textTimeItemCreated"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/doneItemButton"
+        android:layout_width="95dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="164dp"
+        android:text="@string/done_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTimeLastModifiedItem"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

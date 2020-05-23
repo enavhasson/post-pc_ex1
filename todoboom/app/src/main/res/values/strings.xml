@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">todoboom</string>
-    <string name="show_text" >show_text</string>
-    <string name="create" >create</string>
-    <string name="enter_text" >enter_text</string>
+    <string name="show_text">show_text</string>
+    <string name="create">create</string>
+    <string name="enter_text">enter_text</string>
+    <string name="edit_todo_item_text">edit TODO item</string>
+    <string name="item_content">Item content</string>
+    <string name="apply_bottom">apply</string>
+    <string name="time_item_created_text">Time Item Created</string>
+    <string name="time_last_modified_item_text">Time Last Modified Item</string>
+    <string name="done_button">DONE</string>
 </resources>
