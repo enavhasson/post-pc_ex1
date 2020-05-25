@@ -87,6 +87,9 @@ public class NotCompletedTodoActivity extends AppCompatActivity {
                 String message = "TODO "+itemContentText +" is now DONE. BOOM! ";
                 //todo
                 MainActivity.showSnackbar(itemContentTextEditText, message);
+//                Toast.makeText(v.getContext(), "TODO " + message +
+//                        " is now DONE. BOOM! ", Toast.LENGTH_SHORT).show();
+//
                 returnResultToActivity(true);
             }
         });

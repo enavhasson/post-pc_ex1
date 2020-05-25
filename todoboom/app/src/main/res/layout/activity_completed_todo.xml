@@ -4,27 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotCompletedTodoActivity">
+    tools:context=".CompletedTodoActivity">
 
 
     <TextView
         android:id="@+id/itemContentTextView"
-        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/item_content"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="54dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="56dp" />
 
-    <EditText
-        android:id="@+id/editTextItemContent"
+    <TextView
+        android:id="@+id/textItemContent"
         android:layout_width="300sp"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
-        android:hint="@string/item_content"
         android:textSize="20sp"
+        android:text="@string/TextItemContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +33,15 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/applyButton"
-        android:layout_width="95dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="168dp"
+        android:id="@+id/unMarkDoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="140dp"
         android:layout_marginBottom="468dp"
-        android:text="@string/apply_button"
+        android:text="@string/unMarkDoneButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextItemContent"
+        app:layout_constraintTop_toBottomOf="@id/textItemContent"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -52,7 +53,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/applyButton"
+        app:layout_constraintTop_toBottomOf="@id/unMarkDoneButton"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -68,14 +69,15 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/doneItemButton"
+        android:id="@+id/deleteButton"
         android:layout_width="95dp"
         android:layout_height="51dp"
-        android:layout_marginEnd="168dp"
+        android:layout_marginEnd="172dp"
         android:layout_marginBottom="164dp"
-        android:text="@string/done_button"
+        android:text="@string/delete_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTimeLastModifiedItem"
         app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -164,7 +164,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
         return mTodoItem.get(id).getId();
     }
 
-    private void removeItem(int position) {
+    void removeItem(int position) {
         Gson gson = new Gson();
         mTodoItem.remove(position);
         SharedPreferences.Editor editor = m_sp.edit();

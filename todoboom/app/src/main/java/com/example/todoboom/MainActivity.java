@@ -92,8 +92,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 if (!m_items.get(position).get_is_selected()) {
-                    openUncompletedActivity(m_items.get(position).get_item_str(), position);
+                    openActivity(m_items.get(position).get_item_str(), position,1);
 //                    m_items.get(position).set_is_selected(true);
+                } else { //if (m_items.get(position).get_is_selected())
+                    openActivity(m_items.get(position).get_item_str(), position,2);
+//                    m_items.get(position).set_is_selected(false);
                 }
             }
         };
@@ -109,14 +112,31 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    public void openUncompletedActivity(String itemText, int id_item) {
-        Intent intent = new Intent(this, NotCompletedTodoActivity.class);
+    public void openActivity(String itemText, int id_item,int requestCode){
+        Intent intent ;
+        if(requestCode==1){
+            intent= new Intent(this, NotCompletedTodoActivity.class);
+        }
+        else {
+            intent= new Intent(this, CompletedTodoActivity.class);
+        }
         intent.putExtra("item_text", itemText);
         intent.putExtra("item_id", id_item);
         intent.putExtra("Time_item_created", m_items.get(id_item).getTime_item_created());
         intent.putExtra("Time_last_modified", m_items.get(id_item).getTime_last_modified());
-        this.startActivityForResult(intent, 1);
+        this.startActivityForResult(intent, requestCode);
+
     }
+
+
+//    public void openUncompletedActivity(String itemText, int id_item) {
+//        Intent intent = new Intent(this, NotCompletedTodoActivity.class);
+//        intent.putExtra("item_text", itemText);
+//        intent.putExtra("item_id", id_item);
+//        intent.putExtra("Time_item_created", m_items.get(id_item).getTime_item_created());
+//        intent.putExtra("Time_last_modified", m_items.get(id_item).getTime_last_modified());
+//        this.startActivityForResult(intent, 1);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -132,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 m_items.get(id_item).setStr_item(text_item);
 
                 boolean is_selected = data.getBooleanExtra("is_selected_item", false);
-                if(is_selected){
+                if(is_selected){ //todo
                     Toast.makeText(this, "TODO " + text_item +
                             " is now DONE. BOOM! ", Toast.LENGTH_SHORT).show();
                 }
@@ -141,6 +161,24 @@ public class MainActivity extends AppCompatActivity {
 
                 m_adapter.notifyItemChanged(id_item);
 
+            }
+        }
+        else{ //if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                int id_item = data.getIntExtra("item_id",-1);
+                boolean isDelete = data.getBooleanExtra("is_delete_item", false);
+                if (isDelete){
+                    m_adapter.removeItem(id_item);
+                }
+                else {
+                    boolean isUnMarkDone = data.getBooleanExtra("is_Un_Mark_As_Doneggg", false);
+                    if (isUnMarkDone) {
+                        m_items.get(id_item).set_is_selected(false);
+                        m_adapter.notifyItemChanged(id_item);
+                    }
+                }
+                //todo
             }
         }
     }
