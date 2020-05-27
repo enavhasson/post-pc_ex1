@@ -6,8 +6,8 @@
     <string name="edit_todo_item_text">edit TODO item</string>
     <string name="item_content">Item content :</string>
     <string name="apply_button">apply</string>
-    <string name="time_item_created_text">Time Item Created</string>
-    <string name="time_last_modified_item_text">Time Last Modified Item</string>
+    <string name="time_item_created_text">Item Created At:</string>
+    <string name="time_last_modified_item_text">Item Last Modified At:</string>
     <string name="done_button">DONE</string>
     <string name="TextItemContent">Text Item Content</string>
     <string name="delete_button">DELETE</string>
