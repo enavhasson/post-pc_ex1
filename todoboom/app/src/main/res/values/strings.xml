@@ -12,4 +12,5 @@
     <string name="TextItemContent">Text Item Content</string>
     <string name="delete_button">DELETE</string>
     <string name="unMarkDoneButton">un-mark as done</string>
+    <string name="time">time</string>
 </resources>

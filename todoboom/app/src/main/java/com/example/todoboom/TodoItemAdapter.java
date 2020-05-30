@@ -69,14 +69,6 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(getItem(position).getId());
-                            if (mTodoItem.get(getAdapterPosition()).get_isDone()) {
-                                checkBox.setChecked(true);
-                                checkBox.setEnabled(false);
-                                String message="TODO " + item_text.getText().toString() +
-                                        " is now DONE. BOOM! ";
-                                MainActivity.showMessage(v.getContext(), message);
-
-                            }
                         }
                     }
                 }

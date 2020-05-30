@@ -71,7 +71,7 @@ public class CompletedTodoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 fbInstance.setTodoIsDone(id_item, false);
-                String message = "TODO " + todoItem.get_item_str() + " is now DONE. BOOM! ";
+                String message = "TODO " + todoItem.get_item_str() + " is now Not DONE. BOOM! ";
                 MainActivity.showMessage(v.getContext(), message);
                 returnResultToActivity();
             }

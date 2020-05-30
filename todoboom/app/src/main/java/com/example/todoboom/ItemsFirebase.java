@@ -37,7 +37,6 @@ class ItemsFirebase {
     private static ItemsFirebase single_instance = null;
     private HashMap<String, TodoItem> items;
     private String LOG_TAG = "UsersInFirebaseManager";
-    private FirebaseFirestore db;
     private CollectionReference notebookRef;
 
 
@@ -48,36 +47,35 @@ class ItemsFirebase {
         return single_instance;
     }
 
-    void checkConnectedFireBase() {
+    private void checkConnectedFireBase() {
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
-                    Log.d("TAG############", "connected");
+                    Log.d(LOG_TAG, "connected");
                 } else {
-                    Log.d("TAG####################", "not connected");
+                    Log.d(LOG_TAG, "not connected");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("TAG###################", "Listener was cancelled");
+                Log.w(LOG_TAG, "Listener was cancelled");
             }
         });
-        int x = 1;
     }
 
     private ItemsFirebase() {
         items = new HashMap<String, TodoItem>();
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         notebookRef = db.collection("todo_items");
         checkConnectedFireBase();
 //        loadData();
     }
 
-    Map<String, Object> covertFromObjToMap(TodoItem item) {
+    private Map<String, Object> covertFromObjToMap(TodoItem item) {
         Gson gson = new Gson();
         String jsonItem = gson.toJson(item);
         Type type = new TypeToken<Map<String, Object>>() {
@@ -85,13 +83,13 @@ class ItemsFirebase {
         return gson.fromJson(jsonItem, type);
     }
 
-    public void addItem1(final TodoItem item) {
-        notebookRef.document(item.getId())
-                .set(covertFromObjToMap(item));
-        items.put(item.getId(), item);
-    }
+//    public void addItem1(final TodoItem item) {
+//        notebookRef.document(item.getId())
+//                .set(covertFromObjToMap(item));
+//        items.put(item.getId(), item);
+//    }
 
-    public void addTodoItem(final TodoItem item, final TodoItemAdapter adapter) {
+    void addTodoItem(final TodoItem item, final TodoItemAdapter adapter) {
         final TodoItem todoItem = new TodoItem(item);
         notebookRef.document(todoItem.getId())
                 .set(covertFromObjToMap(todoItem))
@@ -161,7 +159,7 @@ class ItemsFirebase {
         return items.size();
     }
 
-    public void loadData(final TodoItemAdapter adapter) {
+    void loadData(final TodoItemAdapter adapter) {
         notebookRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
