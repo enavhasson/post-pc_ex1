@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 class ItemsFirebase {
     static final String KEY_IS_DONE = "is_done";
@@ -32,7 +33,6 @@ class ItemsFirebase {
     static final String KEY_TIME_LAST_MODIFIED = "time_last_modified";
     static final String KEY_TIME_ITEM_CREATED = "time_item_created";
     static final String KEY_ID_ITEM = "id";
-    private static final String KEY_IS_SELECTED_ITEM = "is_selected_item";
     private String LOG_TAG_ADD_ITEM = "Add Item To Firebase";
     private static ItemsFirebase single_instance = null;
     private HashMap<String, TodoItem> items;
@@ -48,7 +48,8 @@ class ItemsFirebase {
     }
 
     private void checkConnectedFireBase() {
-        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().
+                getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -72,7 +73,6 @@ class ItemsFirebase {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         notebookRef = db.collection("todo_items");
         checkConnectedFireBase();
-//        loadData();
     }
 
     private Map<String, Object> covertFromObjToMap(TodoItem item) {
@@ -83,11 +83,6 @@ class ItemsFirebase {
         return gson.fromJson(jsonItem, type);
     }
 
-//    public void addItem1(final TodoItem item) {
-//        notebookRef.document(item.getId())
-//                .set(covertFromObjToMap(item));
-//        items.put(item.getId(), item);
-//    }
 
     void addTodoItem(final TodoItem item, final TodoItemAdapter adapter) {
         final TodoItem todoItem = new TodoItem(item);
@@ -96,10 +91,8 @@ class ItemsFirebase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(LOG_TAG_ADD_ITEM, "Firebase added todo item with ID: " + todoItem.getId());
-//                if (item.getId() == null) {
-//                    item.setId(documentReference.getId());
-//                }
+                        Log.d(LOG_TAG_ADD_ITEM, "Firebase added todo item with ID: " +
+                                todoItem.getId());
                         notebookRef.document(todoItem.getId()).set(covertFromObjToMap(todoItem));
                         items.put(todoItem.getId(), todoItem);
                         adapter.addItem(item);
@@ -108,8 +101,9 @@ class ItemsFirebase {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(LOG_TAG_ADD_ITEM, "Error adding todo item with ID: " + item.getId(), e);
-                    }   //todo log type w,d,i...
+                        Log.w(LOG_TAG_ADD_ITEM, "Error adding todo item with ID: " +
+                                item.getId(), e);
+                    }
                 });
 
     }
@@ -129,16 +123,11 @@ class ItemsFirebase {
     }
 
     void updateContextTodoItem(String idItem, String context) {
-        TodoItem newItem = items.get(idItem);
-        assert newItem != null;
-        newItem.setItem_text(context);
+        Objects.requireNonNull(items.get(idItem)).setItem_text(context);
         String curTime = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        newItem.setTime_last_modified(curTime);
-        //todo
-
+        Objects.requireNonNull(items.get(idItem)).setTime_last_modified(curTime);
         notebookRef.document(idItem).update(KEY_STR_ITEM, context);
         notebookRef.document(idItem).update(KEY_TIME_LAST_MODIFIED, curTime);
-        items.put(idItem, newItem);
     }
 
     boolean checkTodoItemExist(String idItem) {
@@ -165,17 +154,11 @@ class ItemsFirebase {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot docS : queryDocumentSnapshots) {
                     TodoItem todoItem = new TodoItem(docS);
-//                    TodoItem todoItem=docS.toObject(TodoItem.class);
-//                    TodoItem todoItem = new TodoItem(docS.getData().get(KEY_STR_ITEM), docS.getData().get(KEY_IS_DONE), docS.getData().get(KEY_TIME_LAST_MODIFIED), docS.getData().get(KEY_TIME_ITEM_CREATED), docS.getData().get(KEY_ID_ITEM));
-//                    String x = docS.getId();//todo
                     items.put(todoItem.getId(), todoItem);
                     adapter.updateItems(getAllTodoItemsSorted());
-                    //todo text input
                 }
-
             }
         });
-
     }
 
 

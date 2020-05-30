@@ -22,41 +22,31 @@ class TodoItem {
     }
 
     TodoItem(String item_text, String id) {
-        this.is_done = false;
+        this("");
+        this.id = id;
+    }
+
+    TodoItem(String item_text, boolean is_done, String time_item_created,String time_last_modified,
+             String id) {
+        this.is_done = is_done;
         this.item_text = item_text;
-        this.time_item_created = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        this.time_last_modified = time_item_created;
+        this.time_item_created = time_item_created;
+        this.time_last_modified = time_last_modified;
         this.id = id;
     }
 
     TodoItem(TodoItem item) {
-        this.is_done = item.is_done;
-        this.item_text = item.item_text;
-        this.time_item_created = item.time_item_created;
-        this.time_last_modified = item.time_item_created;
-        this.id = item.id;
-    }
-
-
-    TodoItem(String item_text, boolean is_selected) {
-        this.item_text = item_text;
-        this.is_done = is_selected;
-    }
-
-    TodoItem(String item_text, boolean is_done, String time_last_modified,
-             String time_item_created, String id) {
-        this.is_done = is_done;
-        this.item_text = item_text;
-        this.time_item_created = time_item_created;
-        this.time_last_modified = time_item_created;
-        this.id = id;
+        this( item.item_text,item.is_done,item.time_item_created,item.time_last_modified,item.id);
     }
 
     TodoItem(DocumentSnapshot docS) {
-        this.is_done= Objects.requireNonNull((Objects.requireNonNull(docS.getData())).get(ItemsFirebase.KEY_IS_DONE)).toString().equals("true");
+        this.is_done= Objects.requireNonNull((Objects.requireNonNull(docS.getData())).
+                get(ItemsFirebase.KEY_IS_DONE)).toString().equals("true");
         this.item_text = (String) (docS.getData()).get(ItemsFirebase.KEY_STR_ITEM);
-        this.time_item_created = (String) (docS.getData()).get(ItemsFirebase.KEY_TIME_ITEM_CREATED);
-        this.time_last_modified = (String) (docS.getData()).get(ItemsFirebase.KEY_TIME_LAST_MODIFIED);
+        this.time_item_created = (String) (docS.getData())
+                .get(ItemsFirebase.KEY_TIME_ITEM_CREATED);
+        this.time_last_modified = (String) (docS.getData())
+                .get(ItemsFirebase.KEY_TIME_LAST_MODIFIED);
         this.id = (String) (docS.getData()).get(ItemsFirebase.KEY_ID_ITEM);
     }
 
@@ -69,10 +59,6 @@ class TodoItem {
 //        this.id = docS.getString(ItemsInFirebase.KEY_ID_ITEM);
 //    }
 
-//    public TodoItem(Object item_text, Object is_done, Object time_last_modified, Object time_item_created, Object id) {
-//        if (item_text.getClass()  String;
-//
-//    }
 
     public void setTime_last_modified(String time_last_modified) {
         this.time_last_modified = time_last_modified;

@@ -52,7 +52,8 @@ public class NotCompletedTodoActivity extends AppCompatActivity {
                 if (itemContentTextEditText.getText().toString().equals("")) {
                     String message = "you can't edit an empty TODO item, oh silly!";
                     MainActivity.showMessage(v.getContext(),message);
-                } else if (itemContentTextEditText.getText().toString().equals(todoItem.get_item_str())) {
+                } else if (itemContentTextEditText.getText().toString().equals
+                        (todoItem.get_item_str())) {
                     String message = "No change has been made";
                     MainActivity.showMessage(v.getContext(),message);
                 } else {
@@ -73,7 +74,6 @@ public class NotCompletedTodoActivity extends AppCompatActivity {
                 fbInstance.setTodoIsDone(id_item,true);
                 String message = "TODO " + todoItem.get_item_str() + " is now DONE. BOOM! ";
                 MainActivity.showMessage(v.getContext(),message);
-//                Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
                 returnResultToActivity();
             }
         });

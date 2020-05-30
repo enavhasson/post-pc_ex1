@@ -31,6 +31,7 @@ public class CompletedTodoActivity extends AppCompatActivity {
         id_item = getIntent().getStringExtra("item_id");
         fbInstance = ItemsFirebase.getInstance();
         todoItem = fbInstance.getTodoItemById(id_item);
+
         itemContentTextView.setText(todoItem.get_item_str());
         timeLastModifiedItem.setText(todoItem.getTime_last_modified());
         timeItemCreated.setText(todoItem.getTime_item_created());
